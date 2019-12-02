@@ -29,3 +29,6 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### picture files ###
+pictures/*
