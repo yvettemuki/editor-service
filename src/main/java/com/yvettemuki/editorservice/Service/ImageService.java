@@ -4,6 +4,7 @@ import com.mxgraph.canvas.mxGraphicsCanvas2D;
 import com.mxgraph.canvas.mxICanvas2D;
 import com.mxgraph.reader.mxSaxOutputHandler;
 import com.mxgraph.util.mxUtils;
+import com.yvettemuki.editorservice.FileUtils;
 import org.springframework.stereotype.Service;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -21,9 +22,22 @@ import java.io.StringReader;
 @Service
 public class ImageService {
 
-    public void exportImage(int width, int height, String xml) throws Exception {
+    public boolean isValidateName(String name) {
         String path = "./pictures";
-        String processName = "/graphImage";
+        String fullName = name + ".png";
+        File[] files = FileUtils.getAllFileInfoOfFolder(path);
+        for (File f: files) {
+            System.out.println(f.getName());
+            if (fullName.equals(f.getName())) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public void exportImage(String name, int width, int height, String xml) throws Exception {
+        String path = "./pictures";
+        String processName = "/" + name;
         File png = new File(path + processName + ".png");
         File dir = new File(path);
         if(!dir.exists()) {

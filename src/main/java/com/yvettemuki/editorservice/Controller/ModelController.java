@@ -1,7 +1,7 @@
 package com.yvettemuki.editorservice.Controller;
 
 import com.yvettemuki.editorservice.FileUtils;
-import com.yvettemuki.editorservice.Picture;
+import com.yvettemuki.editorservice.Model.Picture;
 import com.yvettemuki.editorservice.Service.ImageService;
 import net.minidev.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,14 +26,22 @@ public class ModelController {
     }
 
 
-    @RequestMapping(value = "/picture", method = POST)
-    public Object getPicture(@RequestBody Picture picture) {
+    @RequestMapping(value = "/save", method = POST)
+    public Object save(@RequestBody Picture picture) {
+        if (!imageService.isValidateName(picture.getName())) {
+            System.out.println("failed to save picture ... " + System.currentTimeMillis() + "ms");
+            JSONObject json = new JSONObject();
+            json.put("success", false);
+            json.put("msg", "the model have been exist, name should be unique!");
+            return json;
+        }
         try {
-            imageService.exportImage(picture.getWidth(), picture.getHeight(), picture.getXml());
+            imageService.exportImage(picture.getName(), picture.getWidth(), picture.getHeight(), picture.getXml());
         } catch (Exception e) {
             JSONObject json = new JSONObject();
-            json.put("failed", true);
+            json.put("success", false);
         }
+        System.out.println("finished saving picture ... " + System.currentTimeMillis() + "ms");
         JSONObject json = new JSONObject();
         json.put("success", true);
         return json;
@@ -42,9 +50,9 @@ public class ModelController {
 
     @RequestMapping(value = "/download", method = POST)
     public void downloadFile(@RequestBody Picture picture, HttpServletResponse res) throws Exception {
-        imageService.exportImage(picture.getWidth(), picture.getHeight(), picture.getXml());
+        imageService.exportImage("model", picture.getWidth(), picture.getHeight(), picture.getXml());
         System.out.println("finished saving picture ... " + System.currentTimeMillis() + "ms");
-        File file = new File("./pictures/graphImage.png");
+        File file = new File("./pictures/model.png");
         if(!file.exists()) {
             throw new IOException("file is empty!");
         }

@@ -2,6 +2,8 @@ package com.yvettemuki.editorservice;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.lang.reflect.Array;
+import java.util.List;
 
 public class FileUtils {
     public static byte[] toByteArray(String filename) throws IOException {
@@ -66,5 +68,12 @@ public class FileUtils {
                 }
             }
         }
+    }
+
+    public static File[] getAllFileInfoOfFolder(String folderPath) {
+        String path = folderPath;
+        File file = new File(path);
+        File[] files = file.listFiles(); //traverse the folder
+        return files;
     }
 }
