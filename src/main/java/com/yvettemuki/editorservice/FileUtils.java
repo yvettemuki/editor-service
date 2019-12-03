@@ -1,5 +1,6 @@
 package com.yvettemuki.editorservice;
 
+import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 
 public class FileUtils {
@@ -29,6 +30,41 @@ public class FileUtils {
                 e.printStackTrace();
             }
             out.close();
+        }
+    }
+
+    public static void toFileStream(File file, HttpServletResponse res) throws IOException {
+        byte[] buffer = new byte[1024];
+        FileInputStream fin = null;
+        BufferedInputStream bin = null;
+        try {
+            fin = new FileInputStream(file);
+            bin = new BufferedInputStream(fin);
+            OutputStream outs = res.getOutputStream();
+            int i = bin.read(buffer);
+            while (i != -1) {
+                outs.write(buffer, 0, i);
+                i = bin.read(buffer);
+            }
+            System.out.println("download successfully!");
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new IOException("file output error");
+        } finally {
+            if (bin != null) {
+                try {
+                    bin.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (fin != null) {
+                try {
+                    fin.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 }

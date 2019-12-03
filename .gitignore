@@ -31,4 +31,4 @@ build/
 .vscode/
 
 ### picture files ###
-pictures/*
+pictures/
