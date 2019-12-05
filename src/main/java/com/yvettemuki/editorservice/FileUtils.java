@@ -76,4 +76,28 @@ public class FileUtils {
         File[] files = file.listFiles(); //traverse the folder
         return files;
     }
+
+    public static void writeStringFile(String xml, String filePath) throws IOException{
+        BufferedReader reader = null;
+        BufferedWriter writer = null;
+        File file = null;
+        try {
+            file = new File(filePath);
+            if (!file.getParentFile().exists()) {
+                file.getParentFile().mkdirs();
+            }
+            reader = new BufferedReader(new StringReader(xml));
+            writer = new BufferedWriter(new FileWriter(file));
+            char buff[] = new char[1024];
+            int len;
+            while ((len = reader.read(buff)) != -1) {
+                writer.write(buff, 0, len);
+            }
+            writer.flush();
+            reader.close();
+            writer.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

@@ -1,6 +1,8 @@
 HELP.md
 target/
 pictures/*.png
+models/*.xml
+picmodels/*.xml
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**
 !**/src/test/**

@@ -1,0 +1,10 @@
+-- DROP TABLE IF EXISTS billionaires;
+--
+-- CREATE TABLE models (
+--   id INT AUTO_INCREMENT  PRIMARY KEY,
+--   model_xml varchar(256) not null ,
+--   svg_xml varchar(256) not null
+-- );
+--
+-- INSERT INTO models (model_xml, svg_xml) VALUES
+--   ('Aliko', 'Dangote')

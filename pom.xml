@@ -47,18 +47,31 @@
             <artifactId>lombok</artifactId>
             <version>1.16.10</version>
         </dependency>
+
         <dependency>
             <groupId>net.minidev</groupId>
             <artifactId>json-smart</artifactId>
             <version>2.3</version>
             <scope>compile</scope>
         </dependency>
+
         <dependency>
             <groupId>com.mxgraph.core</groupId>
             <artifactId>mxgraph-core</artifactId>
             <version>2.0</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <version>1.4.200</version>
+        </dependency>
+
+<!--        <dependency>-->
+<!--            <groupId>org.springframework.boot</groupId>-->
+<!--            <artifactId>spring-boot-starter-data-jpa</artifactId>-->
+<!--            <version>2.1.4.RELEASE</version>-->
+<!--        </dependency>-->
     </dependencies>
 
     <build>

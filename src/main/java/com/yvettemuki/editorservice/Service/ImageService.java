@@ -23,22 +23,39 @@ import java.io.StringReader;
 public class ImageService {
 
     public boolean isValidateName(String name) {
-        String path = "./pictures";
-        String fullName = name + ".png";
+        String modelPath = "./models";
+        String picPath = "./picmodels";
+        String fullName = name + ".xml";
+        if (isValidateInFiles(fullName, modelPath) && isValidateInFiles(fullName, picPath)) {
+            return true;
+        }
+        return false;
+    }
+
+    protected boolean isValidateInFiles(String fileName, String path) {
         File[] files = FileUtils.getAllFileInfoOfFolder(path);
         for (File f: files) {
             System.out.println(f.getName());
-            if (fullName.equals(f.getName())) {
+            if (fileName.equals(f.getName())) {
                 return false;
             }
         }
         return true;
     }
 
+    public void saveModel(String name, String modelXml, String svgXml) throws Exception {
+        String modelFile = "./models";
+        String picFile = "./picmodels";
+        String modelPath = modelFile + "/" + name + ".xml";
+        String picPath = picFile + "/" + name + ".xml";
+        FileUtils.writeStringFile(modelXml, modelPath);
+        FileUtils.writeStringFile(svgXml, picPath);
+    }
+
     public void exportImage(String name, int width, int height, String xml) throws Exception {
         String path = "./pictures";
-        String processName = "/" + name;
-        File png = new File(path + processName + ".png");
+        String fileName = "/" + name;
+        File png = new File(path + fileName + ".png");
         File dir = new File(path);
         if(!dir.exists()) {
             dir.mkdir();

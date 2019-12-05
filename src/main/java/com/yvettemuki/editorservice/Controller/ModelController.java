@@ -1,6 +1,7 @@
 package com.yvettemuki.editorservice.Controller;
 
 import com.yvettemuki.editorservice.FileUtils;
+import com.yvettemuki.editorservice.Model.Model;
 import com.yvettemuki.editorservice.Model.Picture;
 import com.yvettemuki.editorservice.Service.ImageService;
 import net.minidev.json.JSONObject;
@@ -27,8 +28,8 @@ public class ModelController {
 
 
     @RequestMapping(value = "/save", method = POST)
-    public Object save(@RequestBody Picture picture) {
-        if (!imageService.isValidateName(picture.getName())) {
+    public Object save(@RequestBody Model model) {
+        if (!imageService.isValidateName(model.getName())) {
             System.out.println("failed to save picture ... " + System.currentTimeMillis() + "ms");
             JSONObject json = new JSONObject();
             json.put("success", false);
@@ -36,7 +37,7 @@ public class ModelController {
             return json;
         }
         try {
-            imageService.exportImage(picture.getName(), picture.getWidth(), picture.getHeight(), picture.getXml());
+            imageService.saveModel(model.getName(), model.getModelXml(), model.getSvgXml());
         } catch (Exception e) {
             JSONObject json = new JSONObject();
             json.put("success", false);
@@ -48,7 +49,7 @@ public class ModelController {
 
     }
 
-    @RequestMapping(value = "/download", method = POST)
+    @RequestMapping(value = "/downloadPNG", method = POST)
     public void downloadFile(@RequestBody Picture picture, HttpServletResponse res) throws Exception {
         imageService.exportImage("model", picture.getWidth(), picture.getHeight(), picture.getXml());
         System.out.println("finished saving picture ... " + System.currentTimeMillis() + "ms");
