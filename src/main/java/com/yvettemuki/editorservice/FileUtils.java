@@ -1,6 +1,16 @@
 package com.yvettemuki.editorservice;
 
+import org.w3c.dom.Document;
+import org.xml.sax.SAXException;
+
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 import java.io.*;
 import java.lang.reflect.Array;
 import java.util.List;
@@ -100,4 +110,22 @@ public class FileUtils {
             e.printStackTrace();
         }
     }
+
+    public static String toXmlString(String fileName) throws Exception {
+        File file = new File(fileName);
+        DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+        Document doc = dBuilder.parse(file);
+
+        DOMSource domSource = new DOMSource(doc);
+        StringWriter writer = new StringWriter();
+        StreamResult result = new StreamResult(writer);
+        TransformerFactory tf = TransformerFactory.newInstance();
+        Transformer transformer = tf.newTransformer();
+        transformer.transform(domSource, result);
+
+        return writer.toString();
+    }
+
+
 }

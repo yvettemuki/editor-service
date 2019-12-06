@@ -5,12 +5,14 @@ import com.mxgraph.canvas.mxICanvas2D;
 import com.mxgraph.reader.mxSaxOutputHandler;
 import com.mxgraph.util.mxUtils;
 import com.yvettemuki.editorservice.FileUtils;
+import com.yvettemuki.editorservice.Model.Model;
 import org.springframework.stereotype.Service;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 
 import javax.imageio.ImageIO;
+import javax.swing.text.Style;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParserFactory;
 import java.awt.*;
@@ -18,6 +20,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
+import java.util.ArrayList;
 
 @Service
 public class ImageService {
@@ -79,5 +82,24 @@ public class ImageService {
 
         //Renders XML data into image
         reader.parse(new InputSource(new StringReader(xml)));
+    }
+
+    public ArrayList<Model> getAllModels(String modelPath, String picPath) throws Exception{
+        ArrayList<Model> modelList = new ArrayList<>();
+        File[] modelFiles = FileUtils.getAllFileInfoOfFolder(modelPath);
+        File[] picFiles = FileUtils.getAllFileInfoOfFolder(picPath);
+        if (modelFiles.length != picFiles.length) {
+            return null;
+        }
+        for (int i = 0; i < modelFiles.length; i++) {
+            Model model = new Model();
+            System.out.println(modelFiles[i].getName());
+            System.out.println(picFiles[i].getName());
+            model.setName(modelFiles[i].getName()); //including .xml
+            model.setModelXml(FileUtils.toXmlString(modelFiles[i].getPath()));
+            model.setSvgXml(FileUtils.toXmlString(picFiles[i].getPath()));
+            modelList.add(model);
+        }
+        return modelList;
     }
 }

@@ -4,12 +4,16 @@ import com.yvettemuki.editorservice.FileUtils;
 import com.yvettemuki.editorservice.Model.Model;
 import com.yvettemuki.editorservice.Model.Picture;
 import com.yvettemuki.editorservice.Service.ImageService;
+import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
@@ -63,6 +67,11 @@ public class ModelController {
         FileUtils.toFileStream(file, res);
     }
 
+    @RequestMapping(value = "/getModels", method = GET)
+    public List<Model> getModels() throws Exception{
+        ArrayList<Model> list = imageService.getAllModels("./models", "./picmodels");
+        return list;
+    }
 
 
 
