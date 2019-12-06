@@ -62,7 +62,6 @@ public class ModelController {
             throw new IOException("file is empty!");
         }
         res.setContentType("application/force-download");
-        res.addHeader("Content-Disposition", "attachment;fileName=" + "graphImage");
         res.setHeader("Context-Type", "application/xmsdownload");
         FileUtils.toFileStream(file, res);
     }
