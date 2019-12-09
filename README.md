@@ -11,10 +11,14 @@ and use "import project", remember choose "Maven" after choosing the "Import pro
 #### How to run the project:
 You can 
 
-`mvn spring-boot:run`
+```
+mvn spring-boot:run
+```
 
 Or just go to the 
 
-`EditorServiceApplicaton` 
+```
+EditorServiceApplicaton
+``` 
 
 and run the main function 
