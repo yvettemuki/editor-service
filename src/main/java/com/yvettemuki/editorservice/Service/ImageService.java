@@ -95,7 +95,7 @@ public class ImageService {
             Model model = new Model();
             System.out.println(modelFiles[i].getName());
             System.out.println(picFiles[i].getName());
-            model.setName(modelFiles[i].getName().substring(0, modelFiles[i].getName().length() - 5)); //excluding .xml
+            model.setName(modelFiles[i].getName().substring(0, modelFiles[i].getName().length() - 4)); //excluding .xml
             model.setModelXml(FileUtils.toXmlString(modelFiles[i].getPath()));
             model.setSvgXml(FileUtils.toXmlString(picFiles[i].getPath()));
             modelList.add(model);
