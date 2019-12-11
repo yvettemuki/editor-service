@@ -4,6 +4,7 @@ import com.yvettemuki.editorservice.FileUtils;
 import com.yvettemuki.editorservice.Model.Model;
 import com.yvettemuki.editorservice.Model.Picture;
 import com.yvettemuki.editorservice.Service.ImageService;
+import com.yvettemuki.editorservice.Service.ModelService;
 import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,8 @@ public class ModelController {
 
     @Autowired
     ImageService imageService;
+    @Autowired
+    ModelService modelService;
 
     @RequestMapping(value = "/test", method = GET)
     public String home() {
@@ -70,6 +73,12 @@ public class ModelController {
     public List<Model> getModels() throws Exception{
         ArrayList<Model> list = imageService.getAllModels("./models", "./picmodels");
         return list;
+    }
+
+    @RequestMapping(value = "/generateCode", method = POST)
+    public void generateCode(@RequestBody Model model) {
+        //use the typflow java model to get the return value
+        modelService.generateModel(model);
     }
 
 
