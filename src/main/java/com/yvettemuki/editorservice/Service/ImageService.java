@@ -4,7 +4,7 @@ import com.mxgraph.canvas.mxGraphicsCanvas2D;
 import com.mxgraph.canvas.mxICanvas2D;
 import com.mxgraph.reader.mxSaxOutputHandler;
 import com.mxgraph.util.mxUtils;
-import com.yvettemuki.editorservice.FileUtils;
+import com.yvettemuki.editorservice.Utils.FileUtils;
 import com.yvettemuki.editorservice.Model.Model;
 import org.springframework.stereotype.Service;
 import org.xml.sax.InputSource;
@@ -12,7 +12,6 @@ import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 
 import javax.imageio.ImageIO;
-import javax.swing.text.Style;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParserFactory;
 import java.awt.*;

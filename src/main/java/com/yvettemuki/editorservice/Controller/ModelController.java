@@ -1,11 +1,11 @@
 package com.yvettemuki.editorservice.Controller;
 
-import com.yvettemuki.editorservice.FileUtils;
+import com.yvettemuki.editorservice.Utils.FileUtils;
+import com.yvettemuki.editorservice.Model.Instance;
 import com.yvettemuki.editorservice.Model.Model;
 import com.yvettemuki.editorservice.Model.Picture;
 import com.yvettemuki.editorservice.Service.ImageService;
 import com.yvettemuki.editorservice.Service.ModelService;
-import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -76,9 +76,9 @@ public class ModelController {
     }
 
     @RequestMapping(value = "/generateCode", method = POST)
-    public void generateCode(@RequestBody Model model) {
+    public void generateCode(@RequestBody Instance instance) throws Exception {
         //use the typflow java model to get the return value
-        modelService.generateModel(model);
+        modelService.generateModel(instance);
     }
 
 
