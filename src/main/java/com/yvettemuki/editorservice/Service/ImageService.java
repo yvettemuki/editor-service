@@ -6,7 +6,6 @@ import com.mxgraph.reader.mxSaxOutputHandler;
 import com.mxgraph.util.mxUtils;
 import com.yvettemuki.editorservice.Model.ModelData;
 import com.yvettemuki.editorservice.Utils.FileUtils;
-import com.yvettemuki.editorservice.Model.Model;
 import org.springframework.stereotype.Service;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
