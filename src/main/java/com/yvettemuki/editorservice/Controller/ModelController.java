@@ -1,11 +1,11 @@
 package com.yvettemuki.editorservice.Controller;
 
-import com.yvettemuki.editorservice.Utils.FileUtils;
-import com.yvettemuki.editorservice.Model.Instance;
-import com.yvettemuki.editorservice.Model.Model;
+import com.yvettemuki.editorservice.Model.ModelData;
 import com.yvettemuki.editorservice.Model.Picture;
-import com.yvettemuki.editorservice.Service.ImageService;
+import com.yvettemuki.editorservice.Utils.FileUtils;
+import com.yvettemuki.editorservice.Model.GenCodeData;
 import com.yvettemuki.editorservice.Service.ModelService;
+import com.yvettemuki.editorservice.Service.ImageService;
 import net.minidev.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -35,8 +35,8 @@ public class ModelController {
 
 
     @RequestMapping(value = "/save", method = POST)
-    public Object save(@RequestBody Model model) {
-        if (!imageService.isValidateName(model.getName())) {
+    public Object save(@RequestBody ModelData modelData) {
+        if (!imageService.isValidateName(modelData.getName())) {
             System.out.println("failed to save picture ... " + System.currentTimeMillis() + "ms");
             JSONObject json = new JSONObject();
             json.put("success", false);
@@ -44,7 +44,7 @@ public class ModelController {
             return json;
         }
         try {
-            imageService.saveModel(model.getName(), model.getModelXml(), model.getSvgXml());
+            imageService.saveModel(modelData.getName(), modelData.getModelXml(), modelData.getSvgXml());
         } catch (Exception e) {
             JSONObject json = new JSONObject();
             json.put("success", false);
@@ -70,15 +70,15 @@ public class ModelController {
     }
 
     @RequestMapping(value = "/getModels", method = GET)
-    public List<Model> getModels() throws Exception{
-        ArrayList<Model> list = imageService.getAllModels("./models", "./picmodels");
+    public List<ModelData> getModels() throws Exception{
+        ArrayList<ModelData> list = imageService.getAllModels("./models", "./picmodels");
         return list;
     }
 
     @RequestMapping(value = "/generateCode", method = POST)
-    public void generateCode(@RequestBody Instance instance) throws Exception {
+    public void generateCode(@RequestBody GenCodeData genCodeData) throws Exception {
         //use the typflow java model to get the return value
-        modelService.generateModel(instance);
+        modelService.generateModel(genCodeData);
     }
 
 
