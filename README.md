@@ -8,6 +8,8 @@ Java 8
 * if you are using Intellij Idea, you can just clone this project 
 and use "import project", remember choose "Maven" after choosing the "Import project from external model"
 
+#### Run the project
+
 ```
 mvn spring-boot:run
 ```
