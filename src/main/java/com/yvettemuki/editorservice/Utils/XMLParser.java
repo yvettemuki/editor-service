@@ -1,15 +1,6 @@
 package com.yvettemuki.editorservice.Utils;
-import com.yvettemuki.editorservice.Model.typeflowModel.Input;
-import com.yvettemuki.editorservice.Model.typeflowModel.InputType;
-import com.yvettemuki.editorservice.Model.typeflowModel.Output;
-import com.yvettemuki.editorservice.Model.typeflowModel.OutputType;
-import javafx.scene.control.Cell;
+import com.yvettemuki.editorservice.Model.typeflowModel.*;
 import org.dom4j.*;
-import org.dom4j.io.SAXReader;
-import org.xml.sax.InputSource;
-
-import java.io.File;
-import java.io.StringReader;
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -17,11 +8,13 @@ import java.util.List;
 
 public class XMLParser {
 
-    public static void extractModelData(String xml) throws Exception {
+    public static Model extractModelData(String xml) throws Exception {
         System.out.println("----------------------------------------");
         Document document = DocumentHelper.parseText(xml);
         Element mxGraphModel = document.getRootElement();
         List<Element> elements = mxGraphModel.elements();
+        List<Definition> definitions = new ArrayList<>();
+
         Element root = elements.get(0);
 
         for (Iterator<Element> it = root.elementIterator(); it.hasNext();) {
@@ -37,30 +30,37 @@ public class XMLParser {
                             String name = dataEle.attribute("name").getValue();
                             System.out.println(type + " " + name);
 
+                            //the version of input and output type
                             List<Element> inOutputs = dataEle.elements(); //get array of the definition
                             Element inputsEle = inOutputs.get(0);
                             List<Input> inputs = extractInOutputs(inputsEle, InputType.class, Input.class);
-
                             Element outputsEle = inOutputs.get(1);
                             List<Output> outputs = extractInOutputs(outputsEle, OutputType.class, Output.class);
-//                            Element alternativeOutputsEle = inOutputs.get(2);
-//                            Element exceptionOutputsEle = inOutputs.get(3);
-                            System.out.println("----------------------------------------");
-                            for (Input input: inputs) {
-                                System.out.println(input.getInputType().getName());
+                            Definition definition = genDefinition(type, name, inputs, outputs);
+                            if (definition != null) {
+                                definitions.add(definition);
                             }
-                            System.out.println("----------------------------------------");
-                            for (Output output: outputs) {
-                                System.out.println(output.getOutputType().getName());
-                            }
-                            System.out.println("----------------------------------------");
+
                         }
                     }
                 }
             }
         }
+        for(Definition definition: definitions) {
+            System.out.println(definition.toString());
+        }
+        Model model = new Model();
+        return model;
 
+    }
 
+    public static Definition genDefinition(String type, String name, List<Input> inputs, List<Output> outputs) {
+        switch (type) {
+            case "InputEndpoint": return new InputEndpoint(name, outputs.get(0).getOutputType());
+            case "PureFunction": return new PureFunction(name, inputs, outputs);
+            case "OutputEndpoint": return new OutputEndpoint(name, inputs, outputs);
+            default: return null;
+        }
     }
 
     public static <T1,T2> List<T2> extractInOutputs(Element element, Class<T1> inOutTypeClazz, Class<T2> inOutputClazz) throws Exception{

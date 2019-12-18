@@ -9,4 +9,6 @@ import java.util.List;
 public class Model {
     String name;
     List<Definition> definitions;
+    List<Flow> flows;
+    Flow activeFlow;
 }
