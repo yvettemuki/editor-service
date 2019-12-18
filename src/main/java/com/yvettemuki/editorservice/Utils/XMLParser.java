@@ -1,4 +1,8 @@
 package com.yvettemuki.editorservice.Utils;
+import com.mxgraph.io.mxCodec;
+import com.mxgraph.model.mxCell;
+import com.mxgraph.model.mxGraphModel;
+import com.mxgraph.util.mxXmlUtils;
 import com.yvettemuki.editorservice.Model.typeflowModel.*;
 import org.dom4j.*;
 import java.lang.reflect.Constructor;
@@ -8,13 +12,14 @@ import java.util.List;
 
 public class XMLParser {
 
-    public static Model extractModelData(String xml) throws Exception {
+    public static Model extractModelData(String xml, String stringifyXml) throws Exception {
         System.out.println("----------------------------------------");
+        List<Definition> definitions = new ArrayList<>();
+        List<Instance> instances = new ArrayList<>();
+
         Document document = DocumentHelper.parseText(xml);
         Element mxGraphModel = document.getRootElement();
         List<Element> elements = mxGraphModel.elements();
-        List<Definition> definitions = new ArrayList<>();
-
         Element root = elements.get(0);
 
         for (Iterator<Element> it = root.elementIterator(); it.hasNext();) {
@@ -39,6 +44,8 @@ public class XMLParser {
                             Definition definition = genDefinition(type, name, inputs, outputs);
                             if (definition != null) {
                                 definitions.add(definition);
+                                Instance instance = new Instance(definition.getName(), definition);
+                                instances.add(instance);
                             }
 
                         }
@@ -46,12 +53,51 @@ public class XMLParser {
                 }
             }
         }
+        System.out.println("--------------definitions--------------");
         for(Definition definition: definitions) {
             System.out.println(definition.toString());
         }
-        Model model = new Model();
-        return model;
 
+        mxGraphModel graphModel = getMxGraphModel(stringifyXml);
+        List<Connection> connections = extractConnections(root, graphModel);
+
+        return null;
+
+    }
+
+    public static List<Connection> extractConnections(Element root, mxGraphModel graphModel) {
+        List<Connection> connections = new ArrayList<>();
+        for (Iterator<Element> it = root.elementIterator(); it.hasNext();) {
+            Element cellEle = it.next();
+            Attribute edgeAttr = cellEle.attribute("edge");
+            if (edgeAttr != null) {
+                String resourceId = cellEle.attribute("source").getValue();
+                mxCell resource = (mxCell)graphModel.getCell(resourceId);
+                String cellType = resource.getStyle();
+                if (!cellType.equals("inout_node")) {
+                    String fromInstanceId = (String)resource.getValue();
+                    String targetId = cellEle.attribute("target").getValue();
+                    mxCell target = (mxCell)graphModel.getCell(targetId);
+                    System.out.println("@@@@@@@@@@   " + target);
+                }
+            }
+        }
+
+
+        return connections;
+    }
+
+    public static mxGraphModel getMxGraphModel(String xml) {
+        mxGraphModel graphModel = new mxGraphModel();
+        System.out.println(xml);
+        try {
+            org.w3c.dom.Document doc = mxXmlUtils.parseXml(xml);
+            mxCodec codec = new mxCodec(doc);
+            codec.decode(doc.getDocumentElement(), graphModel);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return graphModel;
     }
 
     public static Definition genDefinition(String type, String name, List<Input> inputs, List<Output> outputs) {

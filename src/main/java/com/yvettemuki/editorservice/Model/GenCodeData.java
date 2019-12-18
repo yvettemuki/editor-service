@@ -7,4 +7,5 @@ public class GenCodeData {
     Integer id;
     String name;
     String xml;
+    String stringifyXml;
 }

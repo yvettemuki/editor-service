@@ -7,4 +7,9 @@ import lombok.Data;
 public class Instance {
     String id;
     Definition definition;
+
+    public Instance(String id, Definition definition) {
+        this.id = id;
+        this.definition = definition;
+    }
 }

@@ -15,7 +15,7 @@ public class InputEndpoint extends Definition {
         this.name = name;
         this.inputs = null;
         this.outputType = outputType;
-        Output output = new Output(this.outputType, 1);
+        Output output = new Output(this.outputType, 0);  //change index start from 1 to 0
         this.outputs = new ArrayList<>();
         outputs.add(output);
     }

@@ -9,9 +9,11 @@ public class ModelService {
 
     public boolean generateModel(GenCodeData data) throws Exception {
         String xml = data.getXml();
+        String stringifyXml = data.getStringifyXml();
         System.out.println(xml);
-        XMLParser.extractModelData(xml);
+        XMLParser.extractModelData(xml, stringifyXml);
         return true;
+
     }
 
 }
