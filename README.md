@@ -9,6 +9,7 @@ Java 8
 and use "import project", remember choose "Maven" after choosing the "Import project from external model"
 
 #### Run the project
+You can use terminal
 
 ```
 mvn spring-boot:run
