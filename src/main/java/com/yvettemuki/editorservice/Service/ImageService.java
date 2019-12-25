@@ -54,6 +54,15 @@ public class ImageService {
         FileUtils.writeStringFile(svgXml, picPath);
     }
 
+    public boolean deleteModel(String name) throws IOException {
+        String modelPath = "./models/" + name + ".xml";
+        String picPath = "./picmodels/" + name + ".xml";
+        if (FileUtils.deleteFile(modelPath) && FileUtils.deleteFile(picPath)) {
+            return true;
+        }
+        return false;
+    }
+
     public void exportImage(String name, int width, int height, String xml) throws Exception {
         String path = "./pictures";
         String fileName = "/" + name;

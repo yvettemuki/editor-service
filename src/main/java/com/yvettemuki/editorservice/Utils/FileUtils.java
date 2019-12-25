@@ -81,8 +81,7 @@ public class FileUtils {
     }
 
     public static File[] getAllFileInfoOfFolder(String folderPath) {
-        String path = folderPath;
-        File file = new File(path);
+        File file = new File(folderPath);
         File[] files = file.listFiles(); //traverse the folder
         return files;
     }
@@ -127,5 +126,15 @@ public class FileUtils {
         return writer.toString();
     }
 
-
+    public static boolean deleteFile(String path) throws IOException {
+        System.out.println(path);
+        File file = new File(path);
+        if (file.delete()) {
+            System.out.println("delete file " + file.getName() + " success!");
+            return true;
+        } else {
+            System.out.println("delete file " + file.getName() + "fail");
+            return false;
+        }
+    }
 }

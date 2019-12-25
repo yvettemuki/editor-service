@@ -25,6 +25,7 @@ public class ModelController {
 
     @Autowired
     ImageService imageService;
+
     @Autowired
     ModelService modelService;
 
@@ -73,6 +74,17 @@ public class ModelController {
     public List<ModelData> getModels() throws Exception{
         ArrayList<ModelData> list = imageService.getAllModels("./models", "./picmodels");
         return list;
+    }
+
+    @RequestMapping(value = "/deleteModel", method = POST)
+    public JSONObject deleteModel(@RequestBody String name) throws IOException {
+        JSONObject jsonObject = new JSONObject();
+        if (imageService.deleteModel(name)) {
+            jsonObject.put("success", true);
+        } else {
+            jsonObject.put("success", false);
+        }
+        return jsonObject;
     }
 
     @RequestMapping(value = "/generateCode", method = POST)

@@ -13,7 +13,6 @@ public class ModelService {
         System.out.println(xml);
         XMLParser.extractModelData(xml, stringifyXml);
         return true;
-
     }
 
 }
