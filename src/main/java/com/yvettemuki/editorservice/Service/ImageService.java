@@ -27,6 +27,17 @@ public class ImageService {
     public boolean isValidateName(String name) {
         String modelPath = "./models";
         String picPath = "./picmodels";
+
+        File modelDir = new File(modelPath);
+        File picDir = new File(picPath);
+
+        if (!modelDir.exists()) {
+            modelDir.mkdir();
+        }
+        if (!picDir.exists()) {
+            picDir.mkdir();
+        }
+
         String fullName = name + ".xml";
         if (isValidateInFiles(fullName, modelPath) && isValidateInFiles(fullName, picPath)) {
             return true;
@@ -48,16 +59,6 @@ public class ImageService {
     public void saveModel(String name, String modelXml, String svgXml) {
         String modelFile = "./models";
         String picFile = "./picmodels";
-        File modelDir = new File(modelFile);
-        File picDir = new File(picFile);
-
-        if (!modelDir.exists()) {
-            modelDir.mkdir();
-        }
-        if (!picDir.exists()) {
-            picDir.mkdir();
-        }
-
         String modelPath = modelFile + "/" + name + ".xml";
         String picPath = picFile + "/" + name + ".xml";
         FileUtils.writeStringFile(modelXml, modelPath);
