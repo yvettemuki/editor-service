@@ -45,9 +45,19 @@ public class ImageService {
         return true;
     }
 
-    public void saveModel(String name, String modelXml, String svgXml) throws Exception {
+    public void saveModel(String name, String modelXml, String svgXml) {
         String modelFile = "./models";
         String picFile = "./picmodels";
+        File modelDir = new File(modelFile);
+        File picDir = new File(picFile);
+
+        if (!modelDir.exists()) {
+            modelDir.mkdir();
+        }
+        if (!picDir.exists()) {
+            picDir.mkdir();
+        }
+
         String modelPath = modelFile + "/" + name + ".xml";
         String picPath = picFile + "/" + name + ".xml";
         FileUtils.writeStringFile(modelXml, modelPath);
@@ -96,6 +106,9 @@ public class ImageService {
         ArrayList<ModelData> modelList = new ArrayList<>();
         File[] modelFiles = FileUtils.getAllFileInfoOfFolder(modelPath);
         File[] picFiles = FileUtils.getAllFileInfoOfFolder(picPath);
+        if (modelList == null || picFiles == null) {
+            return null;
+        }
         if (modelFiles.length != picFiles.length) {
             return null;
         }

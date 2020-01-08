@@ -82,18 +82,22 @@ public class FileUtils {
 
     public static File[] getAllFileInfoOfFolder(String folderPath) {
         File file = new File(folderPath);
+        if (!file.exists()) {
+            return null;
+        }
         File[] files = file.listFiles(); //traverse the folder
         return files;
     }
 
-    public static void writeStringFile(String xml, String filePath) throws IOException{
+    public static void writeStringFile(String xml, String filePath) {
         BufferedReader reader = null;
         BufferedWriter writer = null;
         File file = null;
         try {
             file = new File(filePath);
             if (!file.getParentFile().exists()) {
-                file.getParentFile().mkdirs();
+                throw new FileNotFoundException(filePath);
+                //file.getParentFile().mkdirs();
             }
             reader = new BufferedReader(new StringReader(xml));
             writer = new BufferedWriter(new FileWriter(file));
