@@ -1,5 +1,5 @@
 # editor-service
-backend for the typeflow-editor in mxGrapgh
+backend for the typeflow-editor (https://github.com/yvettemuki/typeflow-editor) in mxGraph
 
 #### Environment Requirement
 
@@ -24,10 +24,12 @@ EditorServiceApplicaton
 and run the main function 
 
 #### File Storage Use(=database:future will migrate to OSS service)
-you must manually add the three folder in the project root directory
+When you start up the project, the project will automatically or you can also add manually
+####### including 3 folders below:
 
 ```models```
 ```picmodels```
 ```pictures```
 
 #### The default port is 9090, if you want to change, go to the application.properties file
+####### attention: when you change the backend port, remember change the font-end proxy file.
